@@ -14,7 +14,14 @@ mongoose.connect('mongodb+srv://karthipattabiraman_db_user:$arojAKarth!1@cluster
 .then(() => console.log("Connected to DB"))
 .catch((error) => console.log(error));
 
-app.use(cors({origin: 'http://localhost:5173'}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://budget-wise-frontend-chi.vercel.app/"
+    ]
+  })
+);
 app.use(express.json());
 
 app.use("/api/v1/users",userRouter);
@@ -22,5 +29,8 @@ app.use("/api/v1/transactions",transactionRouter);
 
 app.use(errorHandler);
 
-const port = 8000;
-app.listen(port, () => {console.log(`http://127.0.0.1:${port}`);});
+const port = process.env.PORT || 8000;
+
+app.listen(port, () =>
+  console.log(`Server running on port ${port}`)
+);
